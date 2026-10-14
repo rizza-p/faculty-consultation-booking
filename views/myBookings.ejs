@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Bookings - Faculty Consultation Booking System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>My Bookings</h1>
+  </header>
+
+  <main>
+    <% if (bookings.length === 0) { %>
+      <p>You have no bookings yet.</p>
+    <% } %>
+
+    <% bookings.forEach(function(b) { %>
+      <div style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
+        <p><strong><%= b.faculty_name %></strong></p>
+        <p><%= b.slot_date %> | <%= b.start_time %> - <%= b.end_time %></p>
+        <p>Purpose: <%= b.purpose %></p>
+        <p>Status: <span class="status status-<%= b.status %>"><%= b.status %></span></p>
+      </div>
+    <% }); %>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Incoming Bookings - Faculty Consultation Booking System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Incoming Bookings</h1>
+  </header>
+
+  <main>
+    <% if (bookings.length === 0) { %>
+      <p>No bookings yet.</p>
+    <% } %>
+
+    <% bookings.forEach(function(b) { %>
+      <div style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
+        <p><strong><%= b.student_name %></strong></p>
+        <p><%= b.slot_date %> | <%= b.start_time %> - <%= b.end_time %></p>
+        <p>Purpose: <%= b.purpose %></p>
+        <p>Status: <%= b.status %></p>
+
+        <% if (b.status === "pending") { %>
+          <form action="/bookings/<%= b.id %>/status" method="POST" style="display:inline;">
+            <input type="hidden" name="status" value="approved">
+            <button type="submit">Approve</button>
+          </form>
+          <form action="/bookings/<%= b.id %>/status" method="POST" style="display:inline;">
+            <input type="hidden" name="status" value="declined">
+            <button type="submit">Decline</button>
+          </form>
+        <% } %>
+
+        <% if (b.status === "approved") { %>
+          <form action="/bookings/<%= b.id %>/status" method="POST" style="display:inline;">
+            <input type="hidden" name="status" value="done">
+            <button type="submit">Mark as Done</button>
+          </form>
+          <form action="/bookings/<%= b.id %>/status" method="POST" style="display:inline;">
+            <input type="hidden" name="status" value="cancelled">
+            <button type="submit">Cancel</button>
+          </form>
+        <% } %>
+      </div>
+    <% }); %>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+  </main>
+</body>
+</html>
