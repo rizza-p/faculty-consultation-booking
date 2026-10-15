@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Incoming Bookings - Faculty Consultation Booking System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <h1>Incoming Bookings</h1>
+      <span class="brand">Faculty Consultation Booking System</span>
+    </div>
+  </header>
+
+  <main class="centered-main">
+    <% if (bookings.length === 0) { %>
+      <p>No bookings yet.</p>
+    <% } %>
+
+    <% bookings.forEach(function(b) { %>
+      <div style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
+        <p><strong><%= b.student_name %></strong></p>
+        <p><%= new Date(b.slot_date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %> | <%= formatTime(b.start_time) %> - <%= formatTime(b.end_time) %></p>
+        <p>Purpose: <%= b.purpose %></p>
+        <p>Status: <span class="status status-<%= b.status %>"><%= b.status %></span></p>
+
+        <% if (b.status === "pending") { %>
+          <div style="text-align:center;">
+            <form action="/bookings/<%= b.id %>/status" method="POST" style="display:inline;">
+              <input type="hidden" name="status" value="approved">
+              <button type="submit">Approve</button>
+            </form>
+            <form action="/bookings/<%= b.id %>/status" method="POST" style="display:inline;">
+              <input type="hidden" name="status" value="declined">
+              <button type="submit">Decline</button>
+            </form>
+          </div>
+        <% } %>
+
+        <% if (b.status === "approved") { %>
+          <div style="text-align:center;">
+            <form action="/bookings/<%= b.id %>/status" method="POST" style="display:inline;">
+              <input type="hidden" name="status" value="done">
+              <button type="submit">Mark as Done</button>
+            </form>
+            <form action="/bookings/<%= b.id %>/status" method="POST" style="display:inline;">
+              <input type="hidden" name="status" value="cancelled">
+              <button type="submit">Cancel</button>
+            </form>
+          </div>
+        <% } %>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Bookings - Faculty Consultation Booking System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <h1>All Bookings</h1>
+      <span class="brand">Faculty Consultation Booking System</span>
+    </div>
+  </header>
+
+  <main class="centered-main">
+    <table border="1" cellpadding="8" cellspacing="0">
+      <tr>
+        <th>Student</th>
+        <th>Faculty</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Purpose</th>
+        <th>Status</th>
+      </tr>
+      <% bookings.forEach(function(b) { %>
+        <tr>
+          <td><%= b.student_name %></td>
+          <td><%= b.faculty_name %></td>
+          <td><%= new Date(b.slot_date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+          <td><%= formatTime(b.start_time) %> - <%= formatTime(b.end_time) %></td>
+          <td><%= b.purpose %></td>
+          <td><span class="status status-<%= b.status %>"><%= b.status %></span></td>
+        </tr>
+      <% }); %>
+    </table>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+  </main>
+</body>
+</html>

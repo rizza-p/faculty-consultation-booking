@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Faculty Consultation Booking System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-row">
+    <h1>Create an Account</h1>
+    <span class="brand">Faculty Consultation Booking System</span>
+  </div>
+  </header>
+
+  <main>
+    <% if (error) { %>
+      <p style="color: red;"><%= error %></p>
+    <% } %>
+
+    <form action="/register" method="POST">
+      <label for="name">Full Name</label><br>
+      <input type="text" id="name" name="name" required><br><br>
+
+      <label for="email">Email</label><br>
+      <input type="email" id="email" name="email" required><br><br>
+
+      <label for="password">Password</label><br>
+      <input type="password" id="password" name="password" required><br><br>
+
+      <label for="role">I am a:</label><br>
+      <select id="role" name="role" required>
+        <option value="student">Student</option>
+        <option value="faculty">Faculty</option>
+      </select><br><br>
+
+      <label for="department">Department</label><br>
+      <input type="text" id="department" name="department"><br><br>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="/login">Log in</a></p>
+  </main>
+</body>
+</html>

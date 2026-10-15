@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Users - Faculty Consultation Booking System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <h1>All Users</h1>
+      <span class="brand">Faculty Consultation Booking System</span>
+    </div>
+  </header>
+
+  <main class="centered-main">
+    <table border="1" cellpadding="8" cellspacing="0">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Department</th>
+        <th>Joined</th>
+      </tr>
+      <% users.forEach(function(u) { %>
+        <tr>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td><%= u.role %></td>
+          <td><%= u.department %></td>
+          <td><%= new Date(u.created_at).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) %></td>
+        </tr>
+      <% }); %>
+    </table>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+  </main>
+</body>
+</html>
