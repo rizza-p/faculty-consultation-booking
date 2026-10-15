@@ -168,3 +168,68 @@ main p[style*="color: red"] {
   background-color: #ecf0f1;
   color: #7f8c8d;
 }
+
+.dashboard-header .header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard-header .brand {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #bdc3c7;
+}
+.dashboard-header .logout-link {
+  color: #ecf0f1;
+  font-weight: 600;
+  text-decoration: none;
+}
+.dashboard-header .logout-link:hover {
+  text-decoration: underline;
+}
+
+.home-main {
+  text-align: center;
+}
+.home-main ul {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+.home-description {
+  color: #555;
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+}
+
+
+.page-sub{color:var(--text-dim); font-size:12.5px; margin:-14px 0 18px; text-align:center;}
+
+.container.centered{display:flex; flex-direction:column; align-items:center;}
+.container.centered .page-title,
+.container.centered .page-sub{text-align:center; width:100%;}
+.container.centered .card{width:100%; max-width:640px; text-align:left;}
+.container.centered table{width:100%;}
+
+.centered-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.centered-main form,
+.centered-main > div {
+  text-align: left;
+  width: 100%;
+  max-width: 500px;
+}
+.centered-main table {
+  width: auto;
+  max-width: 100%;
+  text-align: left;
+}
+.centered-main p {
+  text-align: center;
+}

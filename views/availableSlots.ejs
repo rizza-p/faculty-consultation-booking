@@ -7,10 +7,13 @@
 </head>
 <body>
   <header>
-    <h1>Available Consultation Slots</h1>
+    <div class="header-row">
+      <h1>Available Consultation Slots</h1>
+      <span class="brand">Faculty Consultation Booking System</span>
+    </div>
   </header>
 
-  <main>
+  <main class="centered-main">
     <% if (slots.length === 0) { %>
       <p>No available slots right now.</p>
     <% } %>
@@ -18,7 +21,7 @@
     <% slots.forEach(function(slot) { %>
       <div style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
         <p><strong><%= slot.faculty_name %></strong> (<%= slot.department %>)</p>
-        <p><%= slot.slot_date %> | <%= slot.start_time %> - <%= slot.end_time %></p>
+        <p><%= new Date(b.slot_date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %> | <%= formatTime(b.start_time) %> - <%= formatTime(b.end_time) %></p>
 
         <form action="/slots/<%= slot.id %>/book" method="POST">
           <label for="purpose">Purpose</label><br>

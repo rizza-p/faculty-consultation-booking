@@ -7,10 +7,13 @@
 </head>
 <body>
   <header>
-    <h1>All Users</h1>
+    <div class="header-row">
+      <h1>All Users</h1>
+      <span class="brand">Faculty Consultation Booking System</span>
+    </div>
   </header>
 
-  <main>
+  <main class="centered-main">
     <table border="1" cellpadding="8" cellspacing="0">
       <tr>
         <th>Name</th>
@@ -25,7 +28,7 @@
           <td><%= u.email %></td>
           <td><%= u.role %></td>
           <td><%= u.department %></td>
-          <td><%= u.created_at %></td>
+          <td><%= new Date(u.created_at).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) %></td>
         </tr>
       <% }); %>
     </table>

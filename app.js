@@ -29,6 +29,16 @@ app.use(
 // Make db available to other files (routes) later
 app.set("db", db);
 
+// Helper available in every .ejs file: turns "13:00:00" into "1:00 PM"
+app.locals.formatTime = function (t) {
+  if (!t) return "";
+  const [h, m] = t.split(":");
+  const hour = parseInt(h, 10);
+  const ampm = hour >= 12 ? "PM" : "AM";
+  const h12 = hour % 12 === 0 ? 12 : hour % 12;
+  return `${h12}:${m} ${ampm}`;
+};
+
 // Routes
 const homeRoutes = require("./routes/homeRoutes");
 app.use("/", homeRoutes);
