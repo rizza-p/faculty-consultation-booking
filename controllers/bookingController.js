@@ -4,8 +4,20 @@ const bookingModel = require("../models/bookingModel");
 
 exports.bookSlot = (req, res) => {
   const slot_id = req.params.id;
-  const { purpose } = req.body;
+  const purpose = (req.body.purpose || "").trim();
   const student_id = req.session.user.id;
+
+  // check the purpose on the server before saving anything
+  if (purpose.length < 5) {
+    return res.send(
+      'Please enter a purpose of at least 5 characters. <a href="/slots">Go back</a>',
+    );
+  }
+  if (purpose.length > 255) {
+    return res.send(
+      'Purpose is too long (255 characters maximum). <a href="/slots">Go back</a>',
+    );
+  }
 
   slotModel.getSlotById(slot_id, (err, results) => {
     if (err || results.length === 0) {
