@@ -60,17 +60,37 @@ exports.facultyBookings = (req, res) => {
 exports.updateStatus = (req, res) => {
   const booking_id = req.params.id;
   const { status } = req.body;
+  const faculty_id = req.session.user.id;
 
   const allowedStatuses = ["approved", "declined", "done", "cancelled"];
   if (!allowedStatuses.includes(status)) {
     return res.send("Invalid status.");
   }
 
-  bookingModel.updateBookingStatus(booking_id, status, (err) => {
+  bookingModel.updateBookingStatusForFaculty(booking_id, faculty_id, status, (err, result) => {
     if (err) {
       console.error(err);
       return res.send("Could not update booking.");
     }
+    if (result.affectedRows === 0) {
+      return res.send("Booking not found or does not belong to you.");
+    }
     res.redirect("/faculty-bookings");
+  });
+};
+
+exports.cancelBooking = (req, res) => {
+  const booking_id = req.params.id;
+  const student_id = req.session.user.id;
+
+  bookingModel.cancelBookingForStudent(booking_id, student_id, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.send("Could not cancel booking.");
+    }
+    if (result.affectedRows === 0) {
+      return res.send("Booking not found, not yours, or can no longer be cancelled.");
+    }
+    res.redirect("/my-bookings");
   });
 };

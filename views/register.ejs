@@ -13,12 +13,12 @@
   </div>
   </header>
 
-  <main>
+  <main style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - 100px); text-align:center;">
     <% if (error) { %>
       <p style="color: red;"><%= error %></p>
     <% } %>
 
-    <form action="/register" method="POST">
+    <form action="/register" method="POST" style="text-align:left; width:100%; max-width:400px;">
       <label for="name">Full Name</label><br>
       <input type="text" id="name" name="name" required><br><br>
 
