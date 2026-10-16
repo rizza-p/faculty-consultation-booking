@@ -17,9 +17,12 @@ Faculty Consultation Booking System
 - User registration and login (student, faculty, admin roles) with bcrypt-hashed passwords and session-based authentication
 - Role-based access control via middleware — pages are restricted by role, and direct URL access by an unauthorized role is blocked
 - Faculty can post open consultation slots (date, start time, end time)
+- Faculty can view all their posted slots with booking status, student name and purpose, and remove an open slot or cancel a booked one (for emergencies)
 - Students can browse available slots and book one with a stated purpose
-- Faculty can approve, decline, mark as done, or cancel incoming bookings
+- Students can view their bookings and cancel a pending or approved booking; the slot becomes available again
+- Faculty can approve, decline, mark as done, or cancel incoming bookings; declined or cancelled bookings reopen the slot
 - Admin dashboard to view all registered users and all bookings across the system
+- Search on the slot, booking, and admin pages
 - Input validation on registration, login, and booking forms
 - Responsive styling with status badges for booking states
 
@@ -37,23 +40,29 @@ Faculty Consultation Booking System
 
 1. Clone the repository:
 
+```bash
 git clone https://github.com/rizza-p/faculty-consultation-booking.git
 cd faculty-consultation-booking
+```
 
 2. Install dependencies:
 
+```bash
 npm install
+```
 
 ## Configuration
 
 1. Copy `.env.example` to `.env`:
 
+```
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=fcbs_db
 SESSION_SECRET=your_secret_here
 PORT=3000
+```
 
 2. Fill in your local MySQL credentials. `.env` is excluded from version control via `.gitignore` and must never be committed.
 
@@ -102,7 +111,9 @@ CREATE TABLE bookings (
 
 ## How to Run
 
+```bash
 node app.js
+```
 
 Then open `http://localhost:3000` in your browser.
 
@@ -120,27 +131,32 @@ Example test accounts used during development:
 
 ## Project Structure
 
+```
 faculty-consultation-booking/
-├── config/ # Database connection
-├── controllers/ # Request handling logic
-├── middleware/ # Auth and role-checking middleware
-├── models/ # Database queries
-├── public/ # Static assets (CSS)
-├── routes/ # Express route definitions
-├── views/ # EJS templates
-├── app.js
-├── package.json
+├── config/          # Database connection
+├── controllers/     # Request handling logic
+├── docs/            # Requirements document and other project docs
+├── middleware/      # Auth and role-checking middleware
+├── models/          # Database queries
+├── node_modules/    # Installed npm packages (not tracked in Git)
+├── public/          # Static assets (CSS)
+├── routes/          # Express route definitions
+├── views/           # EJS templates
+├── .env
 ├── .env.example
 ├── .gitignore
-├── README.md
-└── LICENSE
+├── app.js
+├── LICENSE
+├── package-lock.json
+├── package.json
+└── README.md
+```
 
 ## Known Limitations
 
 - No email notifications for booking status changes
-- Faculty cannot edit or cancel a slot after it is created
+- Faculty can remove or cancel a slot, but cannot edit its date or time
 - No password reset flow
-- Requirements document is a separate deliverable
 
 ## AI Assistance Disclosure
 

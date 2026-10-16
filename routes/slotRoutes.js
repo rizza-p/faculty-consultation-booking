@@ -24,4 +24,17 @@ router.get(
   slotController.listAvailableSlots,
 );
 
+router.get(
+  "/my-slots",
+  requireLogin,
+  requireRole("faculty"),
+  slotController.mySlots,
+);
+router.post(
+  "/my-slots/:id/cancel",
+  requireLogin,
+  requireRole("faculty"),
+  slotController.cancelSlot,
+);
+
 module.exports = router;

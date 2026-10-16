@@ -30,4 +30,11 @@ router.post(
   bookingController.updateStatus,
 );
 
+router.post(
+  "/my-bookings/:id/cancel",
+  requireLogin,
+  requireRole("student"),
+  bookingController.cancelBooking,
+);
+
 module.exports = router;

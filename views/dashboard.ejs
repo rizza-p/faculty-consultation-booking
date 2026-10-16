@@ -21,6 +21,7 @@
     <% if (user.role === "faculty") { %>
       <ul>
         <li><a href="/slots/new">Post a New Consultation Slot</a></li>
+        <li><a href="/my-slots">My Posted Slots</a></li>
         <li><a href="/faculty-bookings">Manage Incoming Bookings</a></li>
       </ul>
     <% } else if (user.role === "student") { %>
