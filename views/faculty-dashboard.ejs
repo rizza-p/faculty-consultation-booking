@@ -1,0 +1,39 @@
+<%- include("partials/header", { title }) %>
+<div class="page-heading"><div><p class="eyebrow">FACULTY PORTAL</p><h1>Consultation dashboard</h1><p class="muted">Publish available hours and manage student requests.</p></div></div>
+<div class="two-col">
+  <section class="panel">
+    <h2>Publish availability</h2>
+    <form method="post" action="/faculty/availability" class="stack">
+      <label for="starts_at">Start date and time</label><input id="starts_at" type="datetime-local" name="starts_at" required>
+      <label for="ends_at">End date and time</label><input id="ends_at" type="datetime-local" name="ends_at" required>
+      <button class="primary" type="submit">Publish time slot</button>
+    </form>
+    <h2 class="subheading">Availability slots</h2>
+    <% if (!slots.length) { %><div class="empty">No slots published yet.</div><% } %>
+    <% slots.forEach(slot => { %>
+      <div class="slot-row"><div><strong><%= new Date(slot.starts_at).toLocaleString() %></strong><p class="muted small">Until <%= new Date(slot.ends_at).toLocaleString() %></p></div><span class="status <%= slot.active ? 'approved' : 'cancelled' %>"><%= slot.active ? 'active' : 'inactive' %></span>
+        <form method="post" action="/faculty/availability/<%= slot.id %>/toggle"><button class="secondary small-button" type="submit"><%= slot.active ? 'Deactivate' : 'Activate' %></button></form>
+      </div>
+    <% }) %>
+  </section>
+  <section class="panel">
+    <div class="section-title"><h2>Student bookings</h2><span class="muted"><%= bookings.length %> records</span></div>
+    <% if (!bookings.length) { %><div class="empty">Student requests will appear here.</div><% } %>
+    <% bookings.forEach(b => { %>
+      <article class="booking-card">
+        <div class="booking-top"><div><h3><%= b.topic %></h3><p class="muted"><%= b.student_name %> · <%= b.student_email %></p></div><span class="status <%= b.status %>"><%= b.status %></span></div>
+        <p class="booking-time"><%= new Date(b.starts_at).toLocaleString() %> · <%= b.duration_minutes %> min</p>
+        <% if (b.notes) { %><p class="small"><%= b.notes %></p><% } %>
+        <% if (b.status === "pending") { %>
+          <div class="action-row">
+            <form method="post" action="/faculty/bookings/<%= b.id %>/status"><input type="hidden" name="status" value="approved"><button class="primary" type="submit">Approve</button></form>
+            <form method="post" action="/faculty/bookings/<%= b.id %>/status"><input type="hidden" name="status" value="rejected"><button class="danger" type="submit">Reject</button></form>
+          </div>
+        <% } else if (b.status === "approved" && new Date(b.starts_at) < new Date()) { %>
+          <form method="post" action="/faculty/bookings/<%= b.id %>/status"><input type="hidden" name="status" value="completed"><button class="secondary" type="submit">Mark completed</button></form>
+        <% } %>
+      </article>
+    <% }) %>
+  </section>
+</div>
+<%- include("partials/footer") %>

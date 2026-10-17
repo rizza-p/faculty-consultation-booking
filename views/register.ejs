@@ -1,46 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Register - Faculty Consultation Booking System</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <header>
-    <div class="header-row">
-    <h1>Create an Account</h1>
-    <span class="brand">Faculty Consultation Booking System</span>
+<%- include("partials/header", { title }) %>
+<section class="login-wrap">
+  <div class="hero">
+    <p class="eyebrow">CAMPUS SERVICES</p>
+    <h1>Make time for meaningful conversations.</h1>
+    <p>Create a student or faculty account to get started with campus consultations.</p>
+    <div class="feature-pills"><span>Student requests</span><span>Faculty schedules</span><span>Clear status tracking</span></div>
   </div>
-  </header>
-
-  <main style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - 100px); text-align:center;">
-    <% if (error) { %>
-      <p style="color: red;"><%= error %></p>
-    <% } %>
-
-    <form action="/register" method="POST" style="text-align:left; width:100%; max-width:400px;">
-      <label for="name">Full Name</label><br>
-      <input type="text" id="name" name="name" required><br><br>
-
-      <label for="email">Email</label><br>
-      <input type="email" id="email" name="email" required><br><br>
-
-      <label for="password">Password</label><br>
-      <input type="password" id="password" name="password" required><br><br>
-
-      <label for="role">I am a:</label><br>
-      <select id="role" name="role" required>
-        <option value="student">Student</option>
-        <option value="faculty">Faculty</option>
-      </select><br><br>
-
-      <label for="department">Department</label><br>
-      <input type="text" id="department" name="department"><br><br>
-
-      <button type="submit">Register</button>
-    </form>
-
-    <p>Already have an account? <a href="/login">Log in</a></p>
-  </main>
-</body>
-</html>
+  <form class="panel login-panel" method="post" action="/register">
+    <h2>Create your account</h2>
+    <p class="muted">Choose the role that matches how you will use the service.</p>
+    <label for="fullName">Full name</label>
+    <input id="fullName" type="text" name="fullName" required maxlength="120" autocomplete="name">
+    <label for="role">Account type</label>
+    <select id="role" name="role" required>
+      <option value="student">Student</option>
+      <option value="faculty">Faculty</option>
+    </select>
+    <label for="department">Department</label>
+    <select id="department" name="department" required>
+      <option value="">Select your department</option>
+      <option value="College of Computer Studies">College of Computer Studies</option>
+      <option value="College of Engineering and Architecture">College of Engineering and Architecture</option>
+      <option value="College of Arts and Science">College of Arts and Science</option>
+      <option value="College of Health Science">College of Health Science</option>
+      <option value="College of Technological and Development Education">College of Technological and Development Education</option>
+      <option value="College of Tourism, Hospitality, and Business Management">College of Tourism, Hospitality, and Business Management</option>
+    </select>
+    <label for="email">Email address</label>
+    <input id="email" type="email" name="email" required maxlength="190" autocomplete="email" placeholder="name@my.cspc.edu.ph">
+    <p class="small muted">Use your @my.cspc.edu.ph email.</p>
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" required minlength="8" maxlength="72" autocomplete="new-password">
+    <label for="confirmPassword">Confirm password</label>
+    <input id="confirmPassword" type="password" name="confirmPassword" required minlength="8" maxlength="72" autocomplete="new-password">
+    <button class="primary full" type="submit">Create account</button>
+    <p class="small muted">Already have an account? <a href="/login">Log in</a>.</p>
+  </form>
+</section>
+<%- include("partials/footer") %>

@@ -1,0 +1,23 @@
+<%- include("partials/header", { title }) %>
+<div class="page-heading"><div><p class="eyebrow">SYSTEM ADMINISTRATION</p><h1>Admin dashboard</h1><p class="muted">Monitor accounts and consultation activity.</p></div></div>
+<div class="stats-grid">
+  <div class="stat-card"><span>Active students</span><strong><%= counts.students %></strong></div>
+  <div class="stat-card"><span>Active faculty</span><strong><%= counts.faculty %></strong></div>
+  <div class="stat-card"><span>Total bookings</span><strong><%= counts.total_bookings %></strong></div>
+  <div class="stat-card"><span>Pending requests</span><strong><%= counts.pending_bookings %></strong></div>
+</div>
+<section class="panel">
+  <div class="section-title"><h2>User accounts</h2><span class="muted">Deactivate accounts when access should be removed.</span></div>
+  <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Status</th><th>Action</th></tr></thead><tbody>
+    <% users.forEach(user => { %><tr><td><%= user.full_name %></td><td><%= user.email %></td><td><span class="role-tag"><%= user.role %></span></td><td><%= user.department || "—" %></td><td><span class="status <%= user.active ? 'approved' : 'cancelled' %>"><%= user.active ? 'active' : 'inactive' %></span></td><td>
+      <% if (user.id !== currentUser.id) { %><form method="post" action="/admin/users/<%= user.id %>/toggle" onsubmit="return confirm('Change this account status?')"><button class="secondary small-button" type="submit"><%= user.active ? 'Deactivate' : 'Activate' %></button></form><% } else { %><span class="muted small">Current account</span><% } %>
+    </td></tr><% }) %>
+  </tbody></table></div>
+</section>
+<section class="panel">
+  <div class="section-title"><h2>Recent bookings</h2><span class="muted">Latest 100 records</span></div>
+  <div class="table-wrap"><table><thead><tr><th>Topic</th><th>Student</th><th>Faculty</th><th>Date/time</th><th>Status</th></tr></thead><tbody>
+    <% bookings.forEach(b => { %><tr><td><%= b.topic %></td><td><%= b.student_name %></td><td><%= b.faculty_name %></td><td><%= new Date(b.starts_at).toLocaleString() %></td><td><span class="status <%= b.status %>"><%= b.status %></span></td></tr><% }) %>
+  </tbody></table></div>
+</section>
+<%- include("partials/footer") %>
