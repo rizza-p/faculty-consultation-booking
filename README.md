@@ -2,6 +2,8 @@
 
 A campus web application for students to request consultations with faculty members, faculty to publish available time slots and approve or reject requests, and administrators to monitor accounts and booking activity.
 
+Requirements document: [docs/G6_Requirements_Document.pdf](docs/G6_Requirements_Document.pdf)
+
 ## Team
 
 - Axl Rama Doctolero
@@ -73,12 +75,11 @@ faculty-consultation-booking/
 │   ├── faculty-dashboard.ejs
 │   ├── admin-dashboard.ejs
 │   └── error.ejs
+├── docs/
+│   └── G6_Requirements_Document.pdf
 ├── schema.sql
 ├── seed.js
 ├── utils.js
-├── requirements-document.md
-├── AI_DISCLOSURE.md
-├── GITHUB_WORKFLOW.md
 ├── TEST_PLAN.md
 ├── LICENSE
 ├── .env.example
@@ -168,6 +169,12 @@ Follow `TEST_PLAN.md`. Test valid and invalid login, access restrictions, bookin
 - Date/time handling relies on the local server/database timezone. Set consistent timezone settings before real use.
 - Demo seed accounts are public examples and must be changed for any non-demo use.
 - The app uses basic form handling and does not include a dedicated CSRF token library. Add CSRF protection, production-grade logging, rate limiting, secure deployment configuration, and formal security testing before deployment.
+
+## AI Assistance Disclosure
+
+The team used AI tools during this project: ChatGPT (initial project scaffolding, example code, documentation drafts, and UI) and Claude (feature fixes, validation review, README, and showcase preparation). An AI assistant also helped draft and update the requirements document in `docs/G6_Requirements_Document.pdf`.
+
+AI assistance does not replace our responsibility. The team reviewed, tested and corrected the code, and every member can explain the parts they worked on.
 
 ## License
 
