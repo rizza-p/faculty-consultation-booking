@@ -2,7 +2,7 @@
 
 A campus web application for students to request consultations with faculty members, faculty to publish available time slots and approve or reject requests, and administrators to monitor accounts and booking activity.
 
-Requirements document: [docs/GROUP_6_Requirements_Document.pdf](docs/GROUP_6_Requirements_Document.pdf)
+Requirements document: [docs/G6_Requirements_Document.pdf](docs/G6_Requirements_Document.pdf)
 
 ## Team
 
@@ -76,7 +76,7 @@ faculty-consultation-booking/
 │   ├── admin-dashboard.ejs
 │   └── error.ejs
 ├── docs/
-│   └── GROUP_6_Requirements_Document.pdf
+│   └── G6_Requirements_Document.pdf
 ├── schema.sql
 ├── seed.js
 ├── utils.js
