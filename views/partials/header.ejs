@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> | Faculty Consultation Booking</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">Faculty Consultation Booking</a>
+  <% if (currentUser) { %>
+    <nav>
+      <span class="user-chip"><%= currentUser.fullName %> · <%= currentUser.role %></span>
+      <% if (currentUser.role === "student") { %><a href="/bookings">My bookings</a><% } %>
+      <% if (currentUser.role === "faculty") { %><a href="/faculty">Faculty dashboard</a><% } %>
+      <% if (currentUser.role === "admin") { %><a href="/admin">Admin dashboard</a><% } %>
+      <form class="logout-form" action="/logout" method="post"><button class="link-button" type="submit">Log out</button></form>
+    </nav>
+  <% } %>
+</header>
+<main class="container">
+  <% if (successMessages && successMessages.length) { %>
+    <% successMessages.forEach(message => { %><div class="alert success"><%= message %></div><% }) %>
+  <% } %>
+  <% if (errorMessages && errorMessages.length) { %>
+    <% errorMessages.forEach(message => { %><div class="alert error"><%= message %></div><% }) %>
+  <% } %>

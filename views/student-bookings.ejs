@@ -1,0 +1,117 @@
+<%- include("partials/header", { title }) %>
+<div class="page-heading">
+  <div><p class="eyebrow">STUDENT PORTAL</p><h1>My consultations</h1><p class="muted">Request a time with a faculty member and track its progress.</p></div>
+  <span class="stat-pill"><%= bookings.length %> total records</span>
+</div>
+<div class="two-col">
+  <section class="panel">
+    <h2>Request a consultation</h2>
+    <form method="post" action="/bookings" class="stack">
+      <label for="faculty_id">Faculty member</label>
+      <select id="faculty_id" name="faculty_id" required>
+        <option value="">Select faculty</option>
+        <% faculty.forEach(person => { %><option value="<%= person.id %>"><%= person.full_name %><%= person.department ? " — " + person.department : "" %></option><% }) %>
+      </select>
+      <div id="faculty-availability" class="availability-panel" aria-live="polite" hidden>
+        <h3>Published availability</h3>
+        <p id="availability-message" class="muted small"></p>
+        <div id="availability-slots"></div>
+      </div>
+      <label for="topic">Consultation topic</label>
+      <input id="topic" name="topic" required maxlength="120" placeholder="e.g. Project consultation">
+      <label for="starts_at">Preferred start date and time</label>
+      <input id="starts_at" name="starts_at" type="datetime-local" required>
+      <label for="duration_minutes">Duration</label>
+      <select id="duration_minutes" name="duration_minutes">
+        <option value="15">15 minutes</option><option value="30" selected>30 minutes</option>
+        <option value="45">45 minutes</option><option value="60">60 minutes</option>
+        <option value="75">75 minutes</option><option value="90">90 minutes</option><option value="120">120 minutes</option>
+      </select>
+      <label for="notes">Additional notes <span class="muted">(optional)</span></label>
+      <textarea id="notes" name="notes" maxlength="1000" rows="3" placeholder="What would you like to discuss?"></textarea>
+      <button class="primary" type="submit">Submit request</button>
+    </form>
+  </section>
+  <section class="panel">
+    <div class="section-title"><h2>Booking history</h2><span class="muted"><%= bookings.length %> records</span></div>
+    <% if (!bookings.length) { %><div class="empty">Your consultation requests will appear here.</div><% } %>
+    <% bookings.forEach(b => { %>
+      <article class="booking-card">
+        <div class="booking-top"><div><h3><%= b.topic %></h3><p class="muted"><%= b.faculty_name %><%= b.department ? " · " + b.department : "" %></p></div><span class="status <%= b.status %>"><%= b.status %></span></div>
+        <p class="booking-time"><%= new Date(b.starts_at).toLocaleString() %> · <%= b.duration_minutes %> min</p>
+        <% if (b.notes) { %><p class="small"><%= b.notes %></p><% } %>
+        <% if (["pending","approved"].includes(b.status) && new Date(b.starts_at) > new Date()) { %>
+          <details class="reschedule"><summary>Reschedule</summary>
+            <form method="post" action="/bookings/<%= b.id %>/reschedule" class="stack compact">
+              <label>New start date and time</label><input type="datetime-local" name="starts_at" required>
+              <label>Duration</label><select name="duration_minutes"><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option><option value="120">120 minutes</option></select>
+              <button class="secondary" type="submit">Request reschedule</button>
+            </form>
+          </details>
+          <form method="post" action="/bookings/<%= b.id %>/cancel" onsubmit="return confirm('Cancel this consultation?')"><button class="danger subtle" type="submit">Cancel booking</button></form>
+        <% } %>
+      </article>
+    <% }) %>
+  </section>
+</div>
+<script>
+  (() => {
+    const facultySelect = document.getElementById("faculty_id");
+    const availabilityPanel = document.getElementById("faculty-availability");
+    const availabilityMessage = document.getElementById("availability-message");
+    const availabilitySlots = document.getElementById("availability-slots");
+    const startInput = document.getElementById("starts_at");
+    let availabilityRequest;
+
+    facultySelect.addEventListener("change", async () => {
+      availabilitySlots.replaceChildren();
+      availabilityPanel.hidden = !facultySelect.value;
+      if (!facultySelect.value) return;
+
+      if (availabilityRequest) availabilityRequest.abort();
+      availabilityRequest = new AbortController();
+      availabilityMessage.textContent = "Loading availability…";
+
+      try {
+        const response = await fetch(
+          `/bookings/faculty/${encodeURIComponent(facultySelect.value)}/availability`,
+          { signal: availabilityRequest.signal }
+        );
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Could not load availability.");
+
+        if (!result.availability.length) {
+          availabilityMessage.textContent = "This faculty member has no upcoming published slots.";
+          return;
+        }
+
+        availabilityMessage.textContent = "Select a slot to use its start time for your request.";
+        result.availability.forEach((slot) => {
+          const row = document.createElement("div");
+          row.className = "slot-row";
+
+          const times = document.createElement("p");
+          const start = new Date(slot.starts_at.replace(" ", "T"));
+          const end = new Date(slot.ends_at.replace(" ", "T"));
+          times.textContent = `${start.toLocaleString()} – ${end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`;
+
+          const chooseButton = document.createElement("button");
+          chooseButton.className = "secondary small-button";
+          chooseButton.type = "button";
+          chooseButton.textContent = "Use this slot";
+          chooseButton.addEventListener("click", () => {
+            startInput.value = slot.starts_at.replace(" ", "T").slice(0, 16);
+            startInput.focus();
+          });
+
+          row.append(times, chooseButton);
+          availabilitySlots.append(row);
+        });
+      } catch (error) {
+        if (error.name === "AbortError") return;
+        availabilityMessage.textContent = error.message || "Could not load availability. Please try again.";
+      }
+    });
+  })();
+</script>
+<%- include("partials/footer") %>
