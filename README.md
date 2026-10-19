@@ -80,7 +80,6 @@ faculty-consultation-booking/
 ├── schema.sql
 ├── seed.js
 ├── utils.js
-├── TEST_PLAN.md
 ├── LICENSE
 ├── .env.example
 └── package.json
@@ -158,7 +157,7 @@ Open <http://localhost:3000> in your browser. Stop the server with `Ctrl+C`.
 
 ## Testing
 
-Follow `TEST_PLAN.md`. Test valid and invalid login, access restrictions, booking creation, schedule conflicts, status changes, cancellation, rescheduling, and persistent records after a refresh or restart.
+We tested the app by hand. Test valid and invalid login, access restrictions, booking creation, schedule conflicts, status changes, cancellation, rescheduling, and that records are still there after a refresh or restart.
 
 ## Known limitations
 
