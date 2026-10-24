@@ -6,7 +6,7 @@ Requirements document: [docs/G6_Requirements_Document.pdf](docs/G6_Requirements_
 
 ## Team
 
-- Axl Rama Doctolero
+- Axl Doctolero
 - Rizza Pabelonia
 - Francis Jay Tagum
 
